@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -47,5 +48,15 @@ namespace FolderScanner
             return Directory.Exists(_root + user) ? _root + user : string.Empty;
         }
 
+        private void UsersList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void BriefReportBtn_Click(object sender, EventArgs e)
+        {
+            
+        }
+        
     }
 }
