@@ -52,7 +52,7 @@
             this.ItemSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ControlsLayout = new System.Windows.Forms.TableLayoutPanel();
             this.UsersSelectionLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.UsersList = new System.Windows.Forms.ComboBox();
+            this.ItemsList = new System.Windows.Forms.ComboBox();
             this.UsersLabel = new System.Windows.Forms.Label();
             this.BriefReportBtn = new System.Windows.Forms.Button();
             this.MainLayout.SuspendLayout();
@@ -297,9 +297,9 @@
             // ControlsLayout
             // 
             this.ControlsLayout.ColumnCount = 3;
-            this.ControlsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.ControlsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.ControlsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.ControlsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.67532F));
+            this.ControlsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.37663F));
+            this.ControlsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.81818F));
             this.ControlsLayout.Controls.Add(this.UsersSelectionLayout, 0, 0);
             this.ControlsLayout.Controls.Add(this.BriefReportBtn, 2, 0);
             this.ControlsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -315,7 +315,7 @@
             this.UsersSelectionLayout.ColumnCount = 2;
             this.UsersSelectionLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.UsersSelectionLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.UsersSelectionLayout.Controls.Add(this.UsersList, 1, 1);
+            this.UsersSelectionLayout.Controls.Add(this.ItemsList, 1, 1);
             this.UsersSelectionLayout.Controls.Add(this.UsersLabel, 0, 1);
             this.UsersSelectionLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UsersSelectionLayout.Location = new System.Drawing.Point(3, 3);
@@ -323,19 +323,19 @@
             this.UsersSelectionLayout.RowCount = 2;
             this.UsersSelectionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.UsersSelectionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.UsersSelectionLayout.Size = new System.Drawing.Size(225, 45);
+            this.UsersSelectionLayout.Size = new System.Drawing.Size(261, 45);
             this.UsersSelectionLayout.TabIndex = 1;
             // 
-            // UsersList
+            // ItemsList
             // 
-            this.UsersList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.UsersList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.UsersList.FormattingEnabled = true;
-            this.UsersList.Location = new System.Drawing.Point(115, 16);
-            this.UsersList.Name = "UsersList";
-            this.UsersList.Size = new System.Drawing.Size(107, 24);
-            this.UsersList.TabIndex = 0;
-            this.UsersList.SelectedIndexChanged += new System.EventHandler(this.UsersList_SelectedIndexChanged);
+            this.ItemsList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ItemsList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ItemsList.FormattingEnabled = true;
+            this.ItemsList.Location = new System.Drawing.Point(133, 16);
+            this.ItemsList.Name = "ItemsList";
+            this.ItemsList.Size = new System.Drawing.Size(125, 24);
+            this.ItemsList.TabIndex = 0;
+            this.ItemsList.SelectedIndexChanged += new System.EventHandler(this.ItemsList_SelectedIndexChanged);
             // 
             // UsersLabel
             // 
@@ -343,7 +343,7 @@
             this.UsersLabel.Font = new System.Drawing.Font("Liberation Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.UsersLabel.Location = new System.Drawing.Point(3, 13);
             this.UsersLabel.Name = "UsersLabel";
-            this.UsersLabel.Size = new System.Drawing.Size(106, 32);
+            this.UsersLabel.Size = new System.Drawing.Size(124, 32);
             this.UsersLabel.TabIndex = 1;
             this.UsersLabel.Text = "Users and Folders";
             this.UsersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -351,9 +351,9 @@
             // BriefReportBtn
             // 
             this.BriefReportBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BriefReportBtn.Location = new System.Drawing.Point(542, 3);
+            this.BriefReportBtn.Location = new System.Drawing.Point(527, 3);
             this.BriefReportBtn.Name = "BriefReportBtn";
-            this.BriefReportBtn.Size = new System.Drawing.Size(225, 45);
+            this.BriefReportBtn.Size = new System.Drawing.Size(240, 45);
             this.BriefReportBtn.TabIndex = 2;
             this.BriefReportBtn.Text = "Get brief report";
             this.BriefReportBtn.UseVisualStyleBackColor = true;
@@ -381,14 +381,14 @@
             this.ResumeLayout(false);
         }
 
-        
+
         private System.Windows.Forms.TableLayoutPanel MainLayout;
         
         private System.Windows.Forms.Button BriefReportBtn;
         private System.Windows.Forms.TableLayoutPanel ControlsLayout;
         private System.Windows.Forms.TableLayoutPanel UsersSelectionLayout;
         private System.Windows.Forms.Label UsersLabel;
-        private System.Windows.Forms.ComboBox UsersList;
+        private System.Windows.Forms.ComboBox ItemsList;
 
         private System.Windows.Forms.TableLayoutPanel InformationTableLayout;
         private System.Windows.Forms.DataGridView ItemsDataGridView;

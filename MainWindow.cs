@@ -9,15 +9,37 @@ namespace FolderScanner
 {
     public partial class MainWindow : Form
     {
-        private const string _root = @"C:\Users\";
-        private bool _findAllUsers = false;
+        private const string Root = @"C:\Users\";
+        private const string SharedElementsCaption = "Other elements";
+        private const bool FindAllUsers = false;
+        
 
         private List<User> _users;
+        
         public MainWindow()
         {
             InitializeComponent();
-
             _users = GetUsers();
+
+            FillItemsList();
+
+            GetSharedFolderNames();
+        }
+
+        private void FillItemsList()
+        {
+            if (_users.Count == 0)
+            {
+                MessageBox.Show("No users found", "Unexpected situation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                foreach (var user in _users)
+                {
+                    ItemsList.Items.Add(user.Caption);
+                }
+            }
+            ItemsList.Items.Add(SharedElementsCaption);
         }
 
         private List<User> GetUsers()
@@ -27,7 +49,7 @@ namespace FolderScanner
             
             var filteredUsers = allUsers.Cast<ManagementObject>().Where( user =>
             {
-                if (_findAllUsers)
+                if (FindAllUsers)
                 {
                     return (bool) user["LocalAccount"] && int.Parse(user["SIDType"].ToString()) == 1;
                 }
@@ -45,17 +67,37 @@ namespace FolderScanner
         private static string FindUserHomeDir(string user)
         {
             // TODO other locations ??
-            return Directory.Exists(_root + user) ? _root + user : string.Empty;
+            return Directory.Exists(Root + user) ? Root + user : string.Empty;
         }
 
-        private void UsersList_SelectedIndexChanged(object sender, EventArgs e)
+        private void ItemsList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ItemsList.SelectedItem.ToString() == SharedElementsCaption)
+            {
+                return;  // TODO setShared
+            }
+            
+            var result = _users.Find(user => user.Caption == ItemsList.SelectedItem.ToString());
+            if (result == null)
+            {
+                MessageBox.Show($"User {ItemsList.SelectedItem} not found", "Undefined Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            // TODO setUser
             
         }
 
         private void BriefReportBtn_Click(object sender, EventArgs e)
         {
             
+        }
+
+
+        private List<string> GetSharedFolderNames()
+        {
+            return Directory.GetDirectories(Root)
+                .Where(dir => !_users.Exists(user => user.HomeDirectory == dir))
+                .ToList();
         }
         
     }
