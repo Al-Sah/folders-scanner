@@ -12,7 +12,7 @@ namespace FolderScanner
             try
             {
                 return dir.GetFiles()
-                           .Sum(fi => fi.Length / 1024) +
+                           .Sum(fi => fi.Length) +
                        dir.GetDirectories()
                            .Sum(GetDirectorySize);
             }
@@ -21,6 +21,16 @@ namespace FolderScanner
                 Debug.WriteLine(e.Message);
                 return 0;
             }
+        }
+        
+        public static double ConvertTo(long value, MemoryUnit unit) => value / Math.Pow(1024, (long)unit);
+
+        public enum MemoryUnit
+        {
+            Bytes,
+            KBytes,
+            MBytes,
+            GBytes
         }
     }
 }

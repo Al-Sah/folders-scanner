@@ -7,22 +7,34 @@ using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace FolderScanner
+namespace FolderScanner.View
 {
     public partial class MainWindow : Form
     {
         private const string Root = @"C:\Users\";
         private const string SharedElementsCaption = "Other elements";
         private const bool FindAllUsers = false;
+        private const string CollectingData = "Wait )";
 
         private readonly List<User> _users;
         private string _lastSelection = string.Empty;
 
         private long _sharedSpaceUsage = -1;
-        
+        private readonly ConfigurationDialog _configurationDialog;
+
+        public Utils.MemoryUnit MemoryUnit { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            MemoryUnit = Utils.MemoryUnit.Bytes;
+            _configurationDialog = new ConfigurationDialog {Owner = this};
+            _configurationDialog.ApplyNewUnit += item =>
+            {
+                MemoryUnit = item;
+                UpdateSizeLabel();
+            };
+            
             _users = GetUsers();
             ThreadPool.QueueUserWorkItem( _ => _sharedSpaceUsage = CalculateSharedItemsSpaceUsage());
             FillItemsList();
@@ -74,7 +86,7 @@ namespace FolderScanner
 
         private void ItemsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedItem = String.Copy(ItemsList.SelectedItem.ToString());
+            var selectedItem = string.Copy(ItemsList.SelectedItem.ToString());
             if (selectedItem == _lastSelection)
             {
                 return;
@@ -95,6 +107,21 @@ namespace FolderScanner
             SetUserInformation(result);
         }
 
+        private void UpdateSizeLabel()
+        {
+            if (SpaceUsedLabelValue.Text is CollectingData or "")
+            {
+                return;
+            }
+            if (ItemsList.SelectedItem.ToString() == SharedElementsCaption)
+            {
+                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
+                return;
+            }
+            var user = _users.Find(user => user.Caption == ItemsList.SelectedItem.ToString());
+            SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
+        }
+
         private void BriefReportBtn_Click(object sender, EventArgs e)
         {
             
@@ -108,7 +135,7 @@ namespace FolderScanner
                 .ToList()
                 .Sum(dir => Utils.GetDirectorySize(new DirectoryInfo(dir)));
 
-            res += Directory.GetFiles(Root).Sum(fi => fi.Length / 1024); // TODD size config
+            res += Directory.GetFiles(Root).Sum(fi => fi.Length);
             return res;
         }
         
@@ -123,11 +150,11 @@ namespace FolderScanner
             
             if (_sharedSpaceUsage != -1)
             {
-                SpaceUsedLabelValue.Text = _sharedSpaceUsage.ToString();
+                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
             }
             else
             {
-                SpaceUsedLabelValue.Text = "Wait )";
+                SpaceUsedLabelValue.Text = CollectingData;
                 new Thread(SafeSetSpaceUsedLabelValue){IsBackground = true}.Start();
             }
             
@@ -143,11 +170,11 @@ namespace FolderScanner
 
             if (user.SpaceUsageValid)
             {
-                SpaceUsedLabelValue.Text = user.SpaceUsage.ToString();
+                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
             }
             else
             {
-                SpaceUsedLabelValue.Text = "Wait )";
+                SpaceUsedLabelValue.Text = CollectingData;
                 new Thread(() => SafeSetSpaceUsedLabelValue(user)){IsBackground = true}.Start();
             }
         }
@@ -160,9 +187,11 @@ namespace FolderScanner
                 {
                     Thread.Sleep(10);
                 }
+
+                var res = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
                 SpaceUsedLabelValue.Invoke((MethodInvoker) delegate
                 {
-                    SpaceUsedLabelValue.Text = user.SpaceUsage.ToString();
+                    SpaceUsedLabelValue.Text = res;
                 });
             }
             catch (Exception e)
@@ -178,9 +207,10 @@ namespace FolderScanner
                 {
                     Thread.Sleep(10);
                 }
+                var res = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
                 SpaceUsedLabelValue.Invoke((MethodInvoker) delegate
                 {
-                    SpaceUsedLabelValue.Text = _sharedSpaceUsage.ToString();
+                    SpaceUsedLabelValue.Text = res;
                 });
             }
             catch (Exception e)
@@ -188,5 +218,7 @@ namespace FolderScanner
                 Debug.WriteLine(e.Message);
             }
         }
+
+        private void ConfigSizeBtn_Click(object sender, EventArgs e) => _configurationDialog.ShowDialog();
     }
 }
