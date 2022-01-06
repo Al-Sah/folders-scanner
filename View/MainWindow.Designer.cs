@@ -292,11 +292,13 @@
             this.ItemsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ItemsDataGridView.Location = new System.Drawing.Point(8, 8);
             this.ItemsDataGridView.Margin = new System.Windows.Forms.Padding(6);
+            this.ItemsDataGridView.MultiSelect = false;
             this.ItemsDataGridView.Name = "ItemsDataGridView";
             this.ItemsDataGridView.ReadOnly = true;
             this.ItemsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ItemsDataGridView.Size = new System.Drawing.Size(530, 328);
             this.ItemsDataGridView.TabIndex = 2;
+            this.ItemsDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemsDataGridView_CellDoubleClick);
             // 
             // ItemName
             // 

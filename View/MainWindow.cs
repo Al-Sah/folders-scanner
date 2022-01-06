@@ -25,7 +25,7 @@ namespace FolderScanner.View
         private readonly ConfigurationDialog _configurationDialog;
 
         private string _currentRoot = string.Empty;
-        private DirectoryInfo _parentDir = new(Root);
+        private ExtendedDirectoryInfo _parentDir = new(Root);
         private List<FileInfo> _files = new();
         private List<ExtendedDirectoryInfo> _dirs = new();
 
@@ -258,14 +258,14 @@ namespace FolderScanner.View
                     _files = Directory.GetFiles(_currentRoot).Select(file => new FileInfo(file)).ToList();
                     break;
             }
-            _parentDir = new DirectoryInfo(path);
+            _parentDir = new ExtendedDirectoryInfo(path);
             ResetDataGrid();
         }
         private void ResetDataGrid()
         {
             ItemsDataGridView.Rows.Clear();
 
-            if (_currentRoot != "" && _currentRoot != _parentDir.FullName)
+            if (_currentRoot != "" && _currentRoot != _parentDir.Base.FullName)
             {
                 AddLinkToParent();
             }
@@ -318,6 +318,28 @@ namespace FolderScanner.View
                         new DataGridViewTextBoxCell {Value = ""}
                     }
                 });
+        }
+
+        private void ItemsDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var selected = ItemsDataGridView.SelectedRows[0];
+            if (selected.Cells[2].Value.ToString() != "dir" && !(selected.Index == 0 && selected.Cells[0].Value.ToString() == ".."))
+            {
+                return;
+            }
+            
+            
+            if (selected.Index == 0 && selected.Cells[0].Value.ToString() == "..")
+            {
+                _parentDir = new ExtendedDirectoryInfo(_parentDir.Base.Parent?.FullName ?? _currentRoot);
+            }
+            else
+            {
+                _parentDir = _dirs.Find(dir => dir.Base.Name == selected.Cells[0].Value.ToString());
+            }
+            _dirs = Directory.GetDirectories(_parentDir.Base.FullName).Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
+            _files = Directory.GetFiles(_parentDir.Base.FullName).Select(file => new FileInfo(file)).ToList();
+            ResetDataGrid();
         }
     }
 }
