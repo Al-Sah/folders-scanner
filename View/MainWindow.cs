@@ -239,6 +239,7 @@ namespace FolderScanner.View
         private void ResetRoot(string path)
         {
             _currentRoot = path;
+            PathStripLabelValue.Text = _currentRoot;
             _dirs.Clear();
             _files.Clear();
             switch (_currentRoot)
@@ -337,6 +338,8 @@ namespace FolderScanner.View
             {
                 _parentDir = _dirs.Find(dir => dir.Base.Name == selected.Cells[0].Value.ToString());
             }
+
+            PathStripLabelValue.Text = _parentDir.Base.FullName;
             _dirs = Directory.GetDirectories(_parentDir.Base.FullName).Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
             _files = Directory.GetFiles(_parentDir.Base.FullName).Select(file => new FileInfo(file)).ToList();
             ResetDataGrid();
