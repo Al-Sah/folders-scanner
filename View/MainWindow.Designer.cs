@@ -80,14 +80,14 @@
             this.MainLayout.RowCount = 2;
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.MainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.MainLayout.Size = new System.Drawing.Size(784, 411);
+            this.MainLayout.Size = new System.Drawing.Size(844, 411);
             this.MainLayout.TabIndex = 0;
             // 
             // InformationTableLayout
             // 
             this.InformationTableLayout.ColumnCount = 2;
-            this.InformationTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62F));
-            this.InformationTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
+            this.InformationTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.InformationTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.InformationTableLayout.Controls.Add(this.InformationGroupBox, 1, 0);
             this.InformationTableLayout.Controls.Add(this.ItemsDataGridView, 0, 0);
             this.InformationTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -96,17 +96,17 @@
             this.InformationTableLayout.Padding = new System.Windows.Forms.Padding(2);
             this.InformationTableLayout.RowCount = 1;
             this.InformationTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.InformationTableLayout.Size = new System.Drawing.Size(778, 344);
+            this.InformationTableLayout.Size = new System.Drawing.Size(838, 344);
             this.InformationTableLayout.TabIndex = 0;
             // 
             // InformationGroupBox
             // 
             this.InformationGroupBox.Controls.Add(this.GroupBoxLayout);
             this.InformationGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InformationGroupBox.Location = new System.Drawing.Point(484, 5);
+            this.InformationGroupBox.Location = new System.Drawing.Point(547, 5);
             this.InformationGroupBox.Name = "InformationGroupBox";
             this.InformationGroupBox.Padding = new System.Windows.Forms.Padding(8);
-            this.InformationGroupBox.Size = new System.Drawing.Size(289, 334);
+            this.InformationGroupBox.Size = new System.Drawing.Size(286, 334);
             this.InformationGroupBox.TabIndex = 1;
             this.InformationGroupBox.TabStop = false;
             this.InformationGroupBox.Text = "Information box";
@@ -114,8 +114,8 @@
             // GroupBoxLayout
             // 
             this.GroupBoxLayout.ColumnCount = 2;
-            this.GroupBoxLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.19414F));
-            this.GroupBoxLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.80586F));
+            this.GroupBoxLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.74257F));
+            this.GroupBoxLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.25743F));
             this.GroupBoxLayout.Controls.Add(this.SpaceUsedLabel, 0, 5);
             this.GroupBoxLayout.Controls.Add(this.HomeDirectoryLabelValue, 1, 4);
             this.GroupBoxLayout.Controls.Add(this.HomeDirectoryLabel, 0, 4);
@@ -138,7 +138,7 @@
             this.GroupBoxLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.GroupBoxLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.GroupBoxLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.GroupBoxLayout.Size = new System.Drawing.Size(273, 303);
+            this.GroupBoxLayout.Size = new System.Drawing.Size(270, 303);
             this.GroupBoxLayout.TabIndex = 0;
             // 
             // SpaceUsedLabel
@@ -146,7 +146,7 @@
             this.SpaceUsedLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SpaceUsedLabel.Location = new System.Drawing.Point(3, 250);
             this.SpaceUsedLabel.Name = "SpaceUsedLabel";
-            this.SpaceUsedLabel.Size = new System.Drawing.Size(100, 53);
+            this.SpaceUsedLabel.Size = new System.Drawing.Size(114, 53);
             this.SpaceUsedLabel.TabIndex = 13;
             this.SpaceUsedLabel.Text = "Space used";
             this.SpaceUsedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -154,9 +154,9 @@
             // HomeDirectoryLabelValue
             // 
             this.HomeDirectoryLabelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HomeDirectoryLabelValue.Location = new System.Drawing.Point(109, 200);
+            this.HomeDirectoryLabelValue.Location = new System.Drawing.Point(123, 200);
             this.HomeDirectoryLabelValue.Name = "HomeDirectoryLabelValue";
-            this.HomeDirectoryLabelValue.Size = new System.Drawing.Size(161, 50);
+            this.HomeDirectoryLabelValue.Size = new System.Drawing.Size(144, 50);
             this.HomeDirectoryLabelValue.TabIndex = 11;
             this.HomeDirectoryLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -165,7 +165,7 @@
             this.HomeDirectoryLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.HomeDirectoryLabel.Location = new System.Drawing.Point(3, 200);
             this.HomeDirectoryLabel.Name = "HomeDirectoryLabel";
-            this.HomeDirectoryLabel.Size = new System.Drawing.Size(100, 50);
+            this.HomeDirectoryLabel.Size = new System.Drawing.Size(114, 50);
             this.HomeDirectoryLabel.TabIndex = 10;
             this.HomeDirectoryLabel.Text = "HomeDirectory";
             this.HomeDirectoryLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,9 +173,9 @@
             // CaptionLabelValue
             // 
             this.CaptionLabelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CaptionLabelValue.Location = new System.Drawing.Point(109, 150);
+            this.CaptionLabelValue.Location = new System.Drawing.Point(123, 150);
             this.CaptionLabelValue.Name = "CaptionLabelValue";
-            this.CaptionLabelValue.Size = new System.Drawing.Size(161, 50);
+            this.CaptionLabelValue.Size = new System.Drawing.Size(144, 50);
             this.CaptionLabelValue.TabIndex = 9;
             this.CaptionLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -184,7 +184,7 @@
             this.CaptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CaptionLabel.Location = new System.Drawing.Point(3, 150);
             this.CaptionLabel.Name = "CaptionLabel";
-            this.CaptionLabel.Size = new System.Drawing.Size(100, 50);
+            this.CaptionLabel.Size = new System.Drawing.Size(114, 50);
             this.CaptionLabel.TabIndex = 8;
             this.CaptionLabel.Text = "Caption";
             this.CaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -192,9 +192,9 @@
             // NameLabelValue
             // 
             this.NameLabelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NameLabelValue.Location = new System.Drawing.Point(109, 100);
+            this.NameLabelValue.Location = new System.Drawing.Point(123, 100);
             this.NameLabelValue.Name = "NameLabelValue";
-            this.NameLabelValue.Size = new System.Drawing.Size(161, 50);
+            this.NameLabelValue.Size = new System.Drawing.Size(144, 50);
             this.NameLabelValue.TabIndex = 7;
             this.NameLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -203,7 +203,7 @@
             this.NameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NameLabel.Location = new System.Drawing.Point(3, 100);
             this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(100, 50);
+            this.NameLabel.Size = new System.Drawing.Size(114, 50);
             this.NameLabel.TabIndex = 6;
             this.NameLabel.Text = "Name";
             this.NameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -211,9 +211,9 @@
             // LockoutLabelValue
             // 
             this.LockoutLabelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LockoutLabelValue.Location = new System.Drawing.Point(109, 50);
+            this.LockoutLabelValue.Location = new System.Drawing.Point(123, 50);
             this.LockoutLabelValue.Name = "LockoutLabelValue";
-            this.LockoutLabelValue.Size = new System.Drawing.Size(161, 50);
+            this.LockoutLabelValue.Size = new System.Drawing.Size(144, 50);
             this.LockoutLabelValue.TabIndex = 3;
             this.LockoutLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -222,7 +222,7 @@
             this.LockoutLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LockoutLabel.Location = new System.Drawing.Point(3, 50);
             this.LockoutLabel.Name = "LockoutLabel";
-            this.LockoutLabel.Size = new System.Drawing.Size(100, 50);
+            this.LockoutLabel.Size = new System.Drawing.Size(114, 50);
             this.LockoutLabel.TabIndex = 2;
             this.LockoutLabel.Text = "Lockout";
             this.LockoutLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -230,9 +230,9 @@
             // DisabledLabelValue
             // 
             this.DisabledLabelValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DisabledLabelValue.Location = new System.Drawing.Point(109, 0);
+            this.DisabledLabelValue.Location = new System.Drawing.Point(123, 0);
             this.DisabledLabelValue.Name = "DisabledLabelValue";
-            this.DisabledLabelValue.Size = new System.Drawing.Size(161, 50);
+            this.DisabledLabelValue.Size = new System.Drawing.Size(144, 50);
             this.DisabledLabelValue.TabIndex = 1;
             this.DisabledLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -241,7 +241,7 @@
             this.DisabledLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DisabledLabel.Location = new System.Drawing.Point(3, 0);
             this.DisabledLabel.Name = "DisabledLabel";
-            this.DisabledLabel.Size = new System.Drawing.Size(100, 50);
+            this.DisabledLabel.Size = new System.Drawing.Size(114, 50);
             this.DisabledLabel.TabIndex = 0;
             this.DisabledLabel.Text = "Disabled";
             this.DisabledLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -254,12 +254,12 @@
             this.SizeUsageLayout.Controls.Add(this.SpaceUsedLabelValue, 0, 0);
             this.SizeUsageLayout.Controls.Add(this.ConfigSizeBtn, 1, 0);
             this.SizeUsageLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SizeUsageLayout.Location = new System.Drawing.Point(107, 251);
+            this.SizeUsageLayout.Location = new System.Drawing.Point(121, 251);
             this.SizeUsageLayout.Margin = new System.Windows.Forms.Padding(1);
             this.SizeUsageLayout.Name = "SizeUsageLayout";
             this.SizeUsageLayout.RowCount = 1;
             this.SizeUsageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.SizeUsageLayout.Size = new System.Drawing.Size(165, 51);
+            this.SizeUsageLayout.Size = new System.Drawing.Size(148, 51);
             this.SizeUsageLayout.TabIndex = 14;
             // 
             // SpaceUsedLabelValue
@@ -267,7 +267,7 @@
             this.SpaceUsedLabelValue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SpaceUsedLabelValue.Location = new System.Drawing.Point(3, 0);
             this.SpaceUsedLabelValue.Name = "SpaceUsedLabelValue";
-            this.SpaceUsedLabelValue.Size = new System.Drawing.Size(118, 51);
+            this.SpaceUsedLabelValue.Size = new System.Drawing.Size(105, 51);
             this.SpaceUsedLabelValue.TabIndex = 12;
             this.SpaceUsedLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -275,9 +275,9 @@
             // 
             this.ConfigSizeBtn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ConfigSizeBtn.Image = ((System.Drawing.Image) (resources.GetObject("ConfigSizeBtn.Image")));
-            this.ConfigSizeBtn.Location = new System.Drawing.Point(127, 3);
+            this.ConfigSizeBtn.Location = new System.Drawing.Point(114, 3);
             this.ConfigSizeBtn.Name = "ConfigSizeBtn";
-            this.ConfigSizeBtn.Size = new System.Drawing.Size(35, 45);
+            this.ConfigSizeBtn.Size = new System.Drawing.Size(31, 45);
             this.ConfigSizeBtn.TabIndex = 0;
             this.ConfigSizeBtn.UseVisualStyleBackColor = true;
             this.ConfigSizeBtn.Click += new System.EventHandler(this.ConfigSizeBtn_Click);
@@ -294,7 +294,8 @@
             this.ItemsDataGridView.Margin = new System.Windows.Forms.Padding(6);
             this.ItemsDataGridView.Name = "ItemsDataGridView";
             this.ItemsDataGridView.ReadOnly = true;
-            this.ItemsDataGridView.Size = new System.Drawing.Size(467, 328);
+            this.ItemsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ItemsDataGridView.Size = new System.Drawing.Size(530, 328);
             this.ItemsDataGridView.TabIndex = 2;
             // 
             // ItemName
@@ -307,7 +308,7 @@
             // ItemDate
             // 
             this.ItemDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ItemDate.HeaderText = "Date";
+            this.ItemDate.HeaderText = "Last Access Time";
             this.ItemDate.Name = "ItemDate";
             this.ItemDate.ReadOnly = true;
             // 
@@ -321,7 +322,7 @@
             // ItemSize
             // 
             this.ItemSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ItemSize.HeaderText = "Size";
+            this.ItemSize.HeaderText = "Size Bytes";
             this.ItemSize.Name = "ItemSize";
             this.ItemSize.ReadOnly = true;
             // 
@@ -338,7 +339,7 @@
             this.ControlsLayout.Name = "ControlsLayout";
             this.ControlsLayout.RowCount = 1;
             this.ControlsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ControlsLayout.Size = new System.Drawing.Size(778, 55);
+            this.ControlsLayout.Size = new System.Drawing.Size(838, 55);
             this.ControlsLayout.TabIndex = 1;
             // 
             // UsersSelectionLayout
@@ -354,7 +355,7 @@
             this.UsersSelectionLayout.RowCount = 2;
             this.UsersSelectionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.UsersSelectionLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.UsersSelectionLayout.Size = new System.Drawing.Size(264, 49);
+            this.UsersSelectionLayout.Size = new System.Drawing.Size(284, 49);
             this.UsersSelectionLayout.TabIndex = 1;
             // 
             // ItemsList
@@ -362,9 +363,9 @@
             this.ItemsList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ItemsList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ItemsList.FormattingEnabled = true;
-            this.ItemsList.Location = new System.Drawing.Point(135, 17);
+            this.ItemsList.Location = new System.Drawing.Point(145, 17);
             this.ItemsList.Name = "ItemsList";
-            this.ItemsList.Size = new System.Drawing.Size(126, 24);
+            this.ItemsList.Size = new System.Drawing.Size(136, 24);
             this.ItemsList.TabIndex = 0;
             this.ItemsList.SelectedIndexChanged += new System.EventHandler(this.ItemsList_SelectedIndexChanged);
             // 
@@ -374,7 +375,7 @@
             this.UsersLabel.Font = new System.Drawing.Font("Liberation Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.UsersLabel.Location = new System.Drawing.Point(3, 14);
             this.UsersLabel.Name = "UsersLabel";
-            this.UsersLabel.Size = new System.Drawing.Size(126, 35);
+            this.UsersLabel.Size = new System.Drawing.Size(136, 35);
             this.UsersLabel.TabIndex = 1;
             this.UsersLabel.Text = "Users and Folders";
             this.UsersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -382,9 +383,9 @@
             // BriefReportBtn
             // 
             this.BriefReportBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BriefReportBtn.Location = new System.Drawing.Point(533, 3);
+            this.BriefReportBtn.Location = new System.Drawing.Point(573, 3);
             this.BriefReportBtn.Name = "BriefReportBtn";
-            this.BriefReportBtn.Size = new System.Drawing.Size(242, 49);
+            this.BriefReportBtn.Size = new System.Drawing.Size(262, 49);
             this.BriefReportBtn.TabIndex = 2;
             this.BriefReportBtn.Text = "Get brief report";
             this.BriefReportBtn.UseVisualStyleBackColor = true;
@@ -394,7 +395,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 411);
+            this.ClientSize = new System.Drawing.Size(844, 411);
             this.Controls.Add(this.MainLayout);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.Margin = new System.Windows.Forms.Padding(4);

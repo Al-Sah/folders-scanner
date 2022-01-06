@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -15,12 +16,18 @@ namespace FolderScanner.View
         private const string SharedElementsCaption = "Other elements";
         private const bool FindAllUsers = false;
         private const string CollectingData = "Wait )";
+        private const string NoInfoStr = "- - - - -"; 
 
         private readonly List<User> _users;
         private string _lastSelection = string.Empty;
 
         private long _sharedSpaceUsage = -1;
         private readonly ConfigurationDialog _configurationDialog;
+
+        private string _currentRoot = string.Empty;
+        private DirectoryInfo _parentDir = new(Root);
+        private List<FileInfo> _files = new();
+        private List<ExtendedDirectoryInfo> _dirs = new();
 
         public Utils.MemoryUnit MemoryUnit { get; private set; }
 
@@ -33,6 +40,8 @@ namespace FolderScanner.View
             {
                 MemoryUnit = item;
                 UpdateSizeLabel();
+                ItemsDataGridView.Columns[3].HeaderText = $"Size {MemoryUnit.ToString()}";
+                ResetDataGrid();
             };
             
             _users = GetUsers();
@@ -95,6 +104,7 @@ namespace FolderScanner.View
                 
             if (selectedItem == SharedElementsCaption)
             {
+                ResetRoot(Root);
                 SetSharedInformation();
                 return;
             }
@@ -104,6 +114,7 @@ namespace FolderScanner.View
                 MessageBox.Show($"User {ItemsList.SelectedItem} not found", "Undefined Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            ResetRoot(result.HomeDirectory);
             SetUserInformation(result);
         }
 
@@ -141,12 +152,12 @@ namespace FolderScanner.View
         
         private void SetSharedInformation()
         {
-            const string noInfoStr = "- - - - -"; 
+           
             HomeDirectoryLabelValue.Text = Root;
-            DisabledLabelValue.Text = noInfoStr;
-            LockoutLabelValue.Text = noInfoStr;
-            NameLabelValue.Text = noInfoStr;
-            CaptionLabelValue.Text = noInfoStr;
+            DisabledLabelValue.Text = NoInfoStr;
+            LockoutLabelValue.Text = NoInfoStr;
+            NameLabelValue.Text = NoInfoStr;
+            CaptionLabelValue.Text = NoInfoStr;
             
             if (_sharedSpaceUsage != -1)
             {
@@ -170,7 +181,7 @@ namespace FolderScanner.View
 
             if (user.SpaceUsageValid)
             {
-                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
+                SpaceUsedLabelValue.Text = user.SpaceUsage == -1 ? NoInfoStr : $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
             }
             else
             {
@@ -187,12 +198,12 @@ namespace FolderScanner.View
                 {
                     Thread.Sleep(10);
                 }
-
-                var res = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
-                SpaceUsedLabelValue.Invoke((MethodInvoker) delegate
+                var res = user.HomeDirectory != string.Empty ? 
+                    $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}" : NoInfoStr;
+                if (user.Caption == ItemsList.SelectedItem.ToString())
                 {
-                    SpaceUsedLabelValue.Text = res;
-                });
+                    SpaceUsedLabelValue.Invoke((MethodInvoker) delegate { SpaceUsedLabelValue.Text = res; });
+                }
             }
             catch (Exception e)
             {
@@ -208,10 +219,14 @@ namespace FolderScanner.View
                     Thread.Sleep(10);
                 }
                 var res = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
-                SpaceUsedLabelValue.Invoke((MethodInvoker) delegate
+                if (SharedElementsCaption == ItemsList.SelectedItem.ToString())
                 {
-                    SpaceUsedLabelValue.Text = res;
-                });
+                    SpaceUsedLabelValue.Invoke((MethodInvoker) delegate
+                    {
+                        SpaceUsedLabelValue.Text = res;
+                    });
+                }
+                
             }
             catch (Exception e)
             {
@@ -220,5 +235,89 @@ namespace FolderScanner.View
         }
 
         private void ConfigSizeBtn_Click(object sender, EventArgs e) => _configurationDialog.ShowDialog();
+
+        private void ResetRoot(string path)
+        {
+            _currentRoot = path;
+            _dirs.Clear();
+            _files.Clear();
+            switch (_currentRoot)
+            {
+                case "":
+                    ItemsDataGridView.Rows.Clear();
+                    return;
+                case Root:
+                    
+                    _dirs = Directory.GetDirectories(_currentRoot)
+                        .Where(dir => !_users.Exists(user => user.HomeDirectory == dir))
+                        .Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
+                    _files = Directory.GetFiles(_currentRoot).Select(file => new FileInfo(file)).ToList();
+                    break;
+                default: // User
+                    _dirs = Directory.GetDirectories(_currentRoot).Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
+                    _files = Directory.GetFiles(_currentRoot).Select(file => new FileInfo(file)).ToList();
+                    break;
+            }
+            _parentDir = new DirectoryInfo(path);
+            ResetDataGrid();
+        }
+        private void ResetDataGrid()
+        {
+            ItemsDataGridView.Rows.Clear();
+
+            if (_currentRoot != "" && _currentRoot != _parentDir.FullName)
+            {
+                AddLinkToParent();
+            }
+            
+            foreach (var dir in _dirs)
+            {
+                var row = new DataGridViewRow
+                {
+                    Cells =
+                    {
+                        new DataGridViewTextBoxCell {Value = dir.Base.Name},
+                        new DataGridViewTextBoxCell {Value = dir.Base.LastAccessTime.ToString(CultureInfo.CurrentCulture)},
+                        new DataGridViewTextBoxCell {Value = "dir"},
+                        new DataGridViewTextBoxCell
+                        {
+                            Value = dir.Size == -1 ? "Calculating" : $"{Utils.ConvertTo(dir.Size, MemoryUnit):0.00}"
+                        }
+                    }
+                };
+                dir.SizeCalculated += () =>
+                {
+                    if (_dirs.Contains(dir) && row.Cells[3] != null)
+                    {
+                        row.Cells[3].Value = $"{Utils.ConvertTo(dir.Size, MemoryUnit):0.00}";
+                    }
+                };
+                ItemsDataGridView.Rows.Add(row);
+            }
+
+            ItemsDataGridView.Rows.AddRange(_files.Select(file => new DataGridViewRow
+            {
+                Cells =
+                {
+                    new DataGridViewTextBoxCell {Value = file.Name},
+                    new DataGridViewTextBoxCell {Value = file.LastAccessTime.ToString(CultureInfo.CurrentCulture) },
+                    new DataGridViewTextBoxCell {Value = file.Extension},
+                    new DataGridViewTextBoxCell {Value = $"{Utils.ConvertTo(file.Length, MemoryUnit):0.00}"}
+                }
+            }).ToArray());
+        }
+
+        private void AddLinkToParent()
+        {
+            ItemsDataGridView.Rows.Add(
+                new DataGridViewRow{
+                    Cells = {
+                        new DataGridViewTextBoxCell {Value = ".."},
+                        new DataGridViewTextBoxCell {Value = ""},
+                        new DataGridViewTextBoxCell {Value = ""},
+                        new DataGridViewTextBoxCell {Value = ""}
+                    }
+                });
+        }
     }
 }
