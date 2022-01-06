@@ -248,16 +248,28 @@ namespace FolderScanner.View
                     ItemsDataGridView.Rows.Clear();
                     return;
                 case Root:
-                    
-                    _dirs = Directory.GetDirectories(_currentRoot)
-                        .Where(dir => !_users.Exists(user => user.HomeDirectory == dir))
-                        .Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
-                    _files = Directory.GetFiles(_currentRoot).Select(file => new FileInfo(file)).ToList();
+                    try
+                    {
+                        _dirs = Directory.GetDirectories(_currentRoot)
+                            .Where(dir => !_users.Exists(user => user.HomeDirectory == dir))
+                            .Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Failed to get directories", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Debug.WriteLine(e.Message);
+                    }
                     break;
                 default: // User
-                    _dirs = Directory.GetDirectories(_currentRoot).Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
-                    _files = Directory.GetFiles(_currentRoot).Select(file => new FileInfo(file)).ToList();
+                    if (GetDirectoriesSafe(_currentRoot, out var dirs))
+                    {
+                        _dirs = dirs!;
+                    }
                     break;
+            }
+            if (GetFilesSafe(_currentRoot, out var files))
+            {
+                _files = files!;
             }
             _parentDir = new ExtendedDirectoryInfo(path);
             ResetDataGrid();
@@ -340,9 +352,47 @@ namespace FolderScanner.View
             }
 
             PathStripLabelValue.Text = _parentDir.Base.FullName;
-            _dirs = Directory.GetDirectories(_parentDir.Base.FullName).Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
-            _files = Directory.GetFiles(_parentDir.Base.FullName).Select(file => new FileInfo(file)).ToList();
+            if (GetDirectoriesSafe(_parentDir.Base.FullName, out var dirs))
+            {
+                _dirs = dirs!;
+            }
+            if (GetFilesSafe(_parentDir.Base.FullName, out var files))
+            {
+                _files = files!;
+            }
             ResetDataGrid();
+        }
+
+        private bool GetDirectoriesSafe(string path, out List<ExtendedDirectoryInfo>? directories)
+        {
+            try
+            {
+                directories = Directory.GetDirectories(path).Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Failed to get directories", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(e.Message);
+                directories = null;
+                return false;
+            }
+        }
+        
+        private bool GetFilesSafe(string path, out List<FileInfo>? files)
+        {
+            try
+            {
+                files = Directory.GetFiles(path).Select(filename => new FileInfo(filename)).ToList();
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Failed to get files", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(e.Message);
+                files = null;
+                return false;
+            }
         }
     }
 }
