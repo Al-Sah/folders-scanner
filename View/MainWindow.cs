@@ -19,10 +19,12 @@ namespace FolderScanner.View
         private const string NoInfoStr = "- - - - -"; 
 
         private readonly List<User> _users;
+        public int UsersCount { get; }
         private string _lastSelection = string.Empty;
 
-        private long _sharedSpaceUsage = -1;
+        public long SharedSpaceUsage { get; private set; }
         private readonly ConfigurationDialog _configurationDialog;
+        private readonly ReportDialog _reportDialog;
 
         private string _currentRoot = string.Empty;
         private ExtendedDirectoryInfo _parentDir = new(Root);
@@ -43,9 +45,17 @@ namespace FolderScanner.View
                 ItemsDataGridView.Columns[3].HeaderText = $"Size {MemoryUnit.ToString()}";
                 ResetDataGrid();
             };
-            
+
             _users = GetUsers();
-            ThreadPool.QueueUserWorkItem( _ => _sharedSpaceUsage = CalculateSharedItemsSpaceUsage());
+            UsersCount = _users.Count;
+            _reportDialog = new ReportDialog(_users.FindAll(user => !user.Disabled && !user.Lockout).ToList())
+                {Owner = this};
+            
+            _reportDialog.Ready += () => BriefReportBtn.Invoke((MethodInvoker) delegate { BriefReportBtn.Enabled = true; });
+            _reportDialog.Setup();
+
+            SharedSpaceUsage = -1;
+            ThreadPool.QueueUserWorkItem( _ => SharedSpaceUsage = CalculateSharedItemsSpaceUsage());
             FillItemsList();
         }
 
@@ -126,17 +136,14 @@ namespace FolderScanner.View
             }
             if (ItemsList.SelectedItem.ToString() == SharedElementsCaption)
             {
-                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
+                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(SharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
                 return;
             }
             var user = _users.Find(user => user.Caption == ItemsList.SelectedItem.ToString());
             SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
         }
 
-        private void BriefReportBtn_Click(object sender, EventArgs e)
-        {
-            
-        }
+        private void BriefReportBtn_Click(object sender, EventArgs e) => _reportDialog.ShowDialog();
 
         
         private long CalculateSharedItemsSpaceUsage()
@@ -159,9 +166,9 @@ namespace FolderScanner.View
             NameLabelValue.Text = NoInfoStr;
             CaptionLabelValue.Text = NoInfoStr;
             
-            if (_sharedSpaceUsage != -1)
+            if (SharedSpaceUsage != -1)
             {
-                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
+                SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(SharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
             }
             else
             {
@@ -214,11 +221,11 @@ namespace FolderScanner.View
         {
             try
             {
-                while (_sharedSpaceUsage == -1)
+                while (SharedSpaceUsage == -1)
                 {
                     Thread.Sleep(10);
                 }
-                var res = $"{Utils.ConvertTo(_sharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
+                var res = $"{Utils.ConvertTo(SharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
                 if (SharedElementsCaption == ItemsList.SelectedItem.ToString())
                 {
                     SpaceUsedLabelValue.Invoke((MethodInvoker) delegate

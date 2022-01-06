@@ -392,6 +392,7 @@
             // BriefReportBtn
             // 
             this.BriefReportBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BriefReportBtn.Enabled = false;
             this.BriefReportBtn.Location = new System.Drawing.Point(573, 3);
             this.BriefReportBtn.Name = "BriefReportBtn";
             this.BriefReportBtn.Size = new System.Drawing.Size(262, 46);
