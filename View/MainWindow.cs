@@ -353,8 +353,6 @@ namespace FolderScanner.View
             {
                 return;
             }
-            
-            
             if (selected.Index == 0 && selected.Cells[0].Value.ToString() == "..")
             {
                 _parentDir = new ExtendedDirectoryInfo(_parentDir.Base.Parent?.FullName ?? _currentRoot);
@@ -365,23 +363,29 @@ namespace FolderScanner.View
             }
 
             PathStripLabelValue.Text = _parentDir.Base.FullName;
-            if (_parentDir.Base.Parent?.FullName == _currentRoot)
+            var getDirsRes = true;
+            if (_parentDir.Base.FullName + @"\" == _currentRoot)
             {
-                if (GetDirectoriesSafe(_parentDir.Base.FullName, out var dirs))
+                UpdateSharedRootDir();
+            }
+            else
+            {
+                getDirsRes = GetDirectoriesSafe(_parentDir.Base.FullName, out var dirs);
+                if (getDirsRes)
                 {
                     _dirs = dirs!;
                 }
             }
-            else
-            {
-                UpdateSharedRootDir();
-            }
-            
-            if (GetFilesSafe(_parentDir.Base.FullName, out var files))
+            var getFilesRes = GetFilesSafe(_parentDir.Base.FullName, out var files);
+            if (getFilesRes)
             {
                 _files = files!;
             }
-            ResetDataGrid();
+
+            if (getDirsRes && getFilesRes)
+            {
+                ResetDataGrid();
+            }
         }
 
         private bool GetDirectoriesSafe(string path, out List<ExtendedDirectoryInfo>? directories)
