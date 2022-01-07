@@ -69,7 +69,7 @@ namespace FolderScanner.View
             {
                 foreach (var user in _users)
                 {
-                    ItemsList.Items.Add(user.Caption);
+                    ItemsList.Items.Add(user.Name);
                 }
             }
             ItemsList.Items.Add(SharedElementsCaption);
@@ -118,7 +118,7 @@ namespace FolderScanner.View
                 SetSharedInformation();
                 return;
             }
-            var result = _users.Find(user => user.Caption == selectedItem);
+            var result = _users.Find(user => user.Name == selectedItem);
             if (result == null) // TODO is it possible ?
             {
                 MessageBox.Show($"User {ItemsList.SelectedItem} not found", "Undefined Item", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -139,7 +139,7 @@ namespace FolderScanner.View
                 SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(SharedSpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
                 return;
             }
-            var user = _users.Find(user => user.Caption == ItemsList.SelectedItem.ToString());
+            var user = _users.Find(user => user.Name == ItemsList.SelectedItem.ToString());
             SpaceUsedLabelValue.Text = $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}";
         }
 
@@ -207,7 +207,7 @@ namespace FolderScanner.View
                 }
                 var res = user.HomeDirectory != string.Empty ? 
                     $"{Utils.ConvertTo(user.SpaceUsage, MemoryUnit):0.00} \nIn {MemoryUnit}" : NoInfoStr;
-                if (user.Caption == ItemsList.SelectedItem.ToString())
+                if (user.Name == ItemsList.SelectedItem.ToString())
                 {
                     SpaceUsedLabelValue.Invoke((MethodInvoker) delegate { SpaceUsedLabelValue.Text = res; });
                 }
