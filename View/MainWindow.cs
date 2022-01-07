@@ -255,17 +255,7 @@ namespace FolderScanner.View
                     ItemsDataGridView.Rows.Clear();
                     return;
                 case Root:
-                    try
-                    {
-                        _dirs = Directory.GetDirectories(_currentRoot)
-                            .Where(dir => !_users.Exists(user => user.HomeDirectory == dir))
-                            .Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Failed to get directories", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Debug.WriteLine(e.Message);
-                    }
+                    UpdateSharedRootDir();
                     break;
                 default: // User
                     if (GetDirectoriesSafe(_currentRoot, out var dirs))
@@ -281,11 +271,27 @@ namespace FolderScanner.View
             _parentDir = new ExtendedDirectoryInfo(path);
             ResetDataGrid();
         }
+        
+        private void UpdateSharedRootDir()
+        {
+            try
+            {
+                _dirs = Directory.GetDirectories(_currentRoot)
+                    .Where(dir => !_users.Exists(user => user.HomeDirectory == dir))
+                    .Select(dir => new ExtendedDirectoryInfo(dir)).ToList();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Failed to get directories", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(e.Message);
+            }
+        }
+        
         private void ResetDataGrid()
         {
             ItemsDataGridView.Rows.Clear();
 
-            if (_currentRoot != "" && _currentRoot != _parentDir.Base.FullName)
+            if (_currentRoot != "" && _currentRoot != _parentDir.Base.FullName && _parentDir.Base.FullName+@"\" != Root)
             {
                 AddLinkToParent();
             }
@@ -359,10 +365,18 @@ namespace FolderScanner.View
             }
 
             PathStripLabelValue.Text = _parentDir.Base.FullName;
-            if (GetDirectoriesSafe(_parentDir.Base.FullName, out var dirs))
+            if (_parentDir.Base.Parent?.FullName == _currentRoot)
             {
-                _dirs = dirs!;
+                if (GetDirectoriesSafe(_parentDir.Base.FullName, out var dirs))
+                {
+                    _dirs = dirs!;
+                }
             }
+            else
+            {
+                UpdateSharedRootDir();
+            }
+            
             if (GetFilesSafe(_parentDir.Base.FullName, out var files))
             {
                 _files = files!;
